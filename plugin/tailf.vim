@@ -14,8 +14,7 @@ function s:TailfCmd(cmd)
 endfunction
 
 function s:Tailf(file)
-  " FIXME: how to escape filename in job_start strings?
-  call s:TailfCmd('tail -f ' . a:file)
+  call s:TailfCmd("tail -f '" . substitute(a:file, "'\\\\''", 'g') . "'")
   silent exe "file" fnameescape('[TAILF] ' . fnamemodify(a:file, ':~'))
 endfunction
 
