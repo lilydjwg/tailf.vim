@@ -6,7 +6,12 @@ function s:TailfCmd(cmd)
   enew
   let buf = bufnr('%')
   setl buftype=nofile
-  let name = fnameescape("[CMD] " . a:cmd)
+  if type(a:cmd) == type([])
+    let displaycmd = join(a:cmd)
+  elseif type(a:cmd) == type('')
+    let displaycmd = a:cmd
+  endif
+  let name = fnameescape("[CMD] " . displaycmd)
   silent exe "file" name
   let b:job = job_start(a:cmd, {'out_io': 'buffer', 'out_buf': buf})
   " FIXME: why b:job disappears when unloading?
@@ -14,7 +19,7 @@ function s:TailfCmd(cmd)
 endfunction
 
 function s:Tailf(file)
-  call s:TailfCmd("tail -f '" . substitute(a:file, "'", "'\\\\''", 'g') . "'")
+  call s:TailfCmd(['tail', '-f', a:file])
   silent exe "file" fnameescape('[TAILF] ' . fnamemodify(a:file, ':~'))
 endfunction
 
