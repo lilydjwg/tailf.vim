@@ -14,7 +14,7 @@ function s:TailfCmd(cmd)
 endfunction
 
 function s:Tailf(file)
-  call s:TailfCmd("tail -f '" . substitute(a:file, "'\\\\''", 'g') . "'")
+  call s:TailfCmd("tail -f '" . substitute(a:file, "'", "'\\\\''", 'g') . "'")
   silent exe "file" fnameescape('[TAILF] ' . fnamemodify(a:file, ':~'))
 endfunction
 
