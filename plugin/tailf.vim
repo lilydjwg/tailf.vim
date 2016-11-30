@@ -2,7 +2,7 @@
 " Author:       lilydjwg <lilydjwg@gmail.com>
 " License:	Vim License  (see vim's :help license)
 
-function s:TailfCmd(cmd)
+function! s:TailfCmd(cmd)
   enew
   let buf = bufnr('%')
   setl buftype=nofile
@@ -18,13 +18,13 @@ function s:TailfCmd(cmd)
   au BufUnload <buffer> call job_stop(b:job)
 endfunction
 
-function s:Tailf(file)
+function! s:Tailf(file)
   call s:TailfCmd(['tail', '-f', a:file])
   silent exe "file" fnameescape('[TAILF] ' . fnamemodify(a:file, ':~'))
 endfunction
 
-command -nargs=+ -complete=shellcmd TailfCmd call s:TailfCmd(<q-args>)
-command -nargs=1 -complete=file Tailf call s:Tailf(<f-args>)
+command! -nargs=+ -complete=shellcmd TailfCmd call s:TailfCmd(<q-args>)
+command! -nargs=1 -complete=file Tailf call s:Tailf(<f-args>)
 " ---------------------------------------------------------------------
 " Vim Modeline:
 " vim:fdm=expr:fde=getline(v\:lnum-1)=~'\\v"\\s*-{20,}'?'>1'\:1
